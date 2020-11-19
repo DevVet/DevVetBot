@@ -38,8 +38,8 @@ client.on('message', msg => {
             msg.channel.send(`Total Repos: ${userData.public_repos}`)
           })
           .catch(console.error)
-      } catch(e) {
-        cosole.error(e)
+      } catch(error) {
+        cosole.error(error)
       }
 
     }
