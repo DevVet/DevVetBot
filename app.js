@@ -12,19 +12,37 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-  if (
-    msg.content.toLowerCase().match(/devvetbot/g)
-    && msg.content.toLowerCase().match(/articles/g)
-  ) {
-    fetch('https://dev.to/api/articles')
-    .then(res => res.json())
-    .then(json => {
+  if (msg.content.toLowerCase().match(/devvetbot/g)){
+    if(msg.content.toLowerCase().match(/articles/g)){
+      fetch('https://dev.to/api/articles')
+      .then(res => res.json())
+      .then(json => {
 
-      newsChannel.send(json
-        .slice(0,5)
-        .reduce((acc,article) => `${acc}${article.url}\n`, "Top 5 Dev.to articles:\n")
-      )
-    });
+        newsChannel.send(json
+          .slice(0,5)
+          .reduce((acc,article) => `${acc}${article.url}\n`, "Top 5 Dev.to articles:\n")
+        )
+      });
+    } else if(msg.content.toLowerCase().match(/github/g)){
+      let avatar_url;
+      let html_url;
+      let bio;
+      let repos;
+      let user = msg.content.split(' ')
+      user = user[user.length - 1]
+      try {
+        fetch(`https://api.github.com/users/${user}`)
+          .then(resp => resp.json())
+          .then(userData => {
+            msg.channel.send(userData.html_url)
+            msg.channel.send(`Total Repos: ${userData.public_repos}`)
+          })
+          .catch(console.error)
+      } catch(e) {
+        cosole.error(e)
+      }
+
+    }
   }
 });
 
