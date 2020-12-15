@@ -14,8 +14,12 @@ client.on("ready", () => {
 });
 
 client.on("message", (msg) => {
-  if (msg.content.toLowerCase().match(/devvetbot/g)) {
-    if (msg.content.toLowerCase().match(/articles/g)) {
+  if (msg.content.toLowerCase().match(/!devvetbot/g)) {
+    if (msg.content.toLowerCase().match(/help/g)) {
+      msg.channel.send(
+        "DVBot Commands:\n   help - command list\n   articles - print top 5 Dev.to articls in #daily-articles\n   github <githubUsername> - print user github link and repo count"
+      );
+    } else if (msg.content.toLowerCase().match(/articles/g)) {
       fetch("https://dev.to/api/articles")
         .then((res) => res.json())
         .then((json) => {
