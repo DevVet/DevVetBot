@@ -72,4 +72,8 @@ const sendHelp = (msg) => {
   );
 };
 
-module.exports = { foaas, github, devToArticles, sendHelp };
+const jinx = (msg) => {
+  msg.channel.send("1\r2\r3\r4\r5\r6\r7\r8\r9\r10\rYou owe me a coke!!");
+};
+
+module.exports = { foaas, github, devToArticles, sendHelp, jinx };
