@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const fetch = require("node-fetch");
-const { foaas, github, devToArticles, sendHelp } = require("./ops.js");
+const { foaas, github, devToArticles, sendHelp, jinx } = require("./ops.js");
 const client = new Discord.Client();
 
 require("dotenv").config();
@@ -25,6 +25,9 @@ client.on("message", (msg) => {
     } else if (msg.content.toLowerCase().match(/fujson/g)) {
       foaas(msg);
     }
+  }
+  if (msg.content.toLowerCase().match(/!jinx/g)) {
+    jinx(msg);
   }
 });
 
