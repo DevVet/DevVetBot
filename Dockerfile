@@ -1,5 +1,11 @@
 FROM node:lts-alpine3.12
 
-ADD ./src .
+WORKDIR /use/src/app
 
-ENTRYPOINT [ "node", "src/app.js" ]
+COPY package*.json ./
+
+RUN npm ci
+
+COPY . .
+
+CMD [ "node", "src/app.js" ]
