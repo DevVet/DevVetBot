@@ -15,7 +15,7 @@ client.on("ready", () => {
 });
 
 client.on("message", (msg) => {
-  if (msg.content.toLowerCase().match(/!dvb/g)) {
+  if (msg.content.toLowerCase().match(/^!dvb/g)) {
     if (msg.content.toLowerCase().match(/help/g)) {
       sendHelp(msg);
     } else if (msg.content.toLowerCase().match(/articles/g)) {
@@ -26,7 +26,7 @@ client.on("message", (msg) => {
       foaas(msg);
     }
   }
-  if (msg.content.toLowerCase().match(/!jinx/g)) {
+  if (msg.content.toLowerCase().match(/^!jinx/g)) {
     jinx(msg);
   }
 });
