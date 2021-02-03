@@ -80,7 +80,7 @@ const jinx = (msg) => {
 };
 
 const mdn = async (msg) => {
-  const searchString = msg.content.slice(msg.content.indexOf("!mdn") + 5);
+  const searchString = msg.content.slice(msg.content.indexOf("mdn") + 4);
   const url = `https://developer.mozilla.org/en-US/search?q=${encodeURI(
     searchString.replace(" ", "+")
   )}`;
