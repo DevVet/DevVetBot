@@ -1,4 +1,7 @@
 const fetch = require("node-fetch");
+const jsdom = require("jsdom");
+const { Message } = require("discord.js");
+const Discord = require("discord.js");
 
 const foaas = (msg) => {
   const refMap = {
@@ -76,4 +79,41 @@ const jinx = (msg) => {
   msg.channel.send("1\r2\r3\r4\r5\r6\r7\r8\r9\r10\rYou owe me a coke!!");
 };
 
-module.exports = { foaas, github, devToArticles, sendHelp, jinx };
+const mdn = async (msg) => {
+  const searchString = msg.content.slice(msg.content.indexOf("!mdn") + 5);
+  const url = `https://developer.mozilla.org/en-US/search?q=${encodeURI(
+    searchString.replace(" ", "+")
+  )}`;
+  const response = await fetch(url);
+  const dom = new jsdom.JSDOM(await response.text());
+  const resultElements = dom.window.document.getElementsByClassName("result");
+
+  let results = [];
+
+  for (let i = 0; i < 3; i++) {
+    const resultElement = resultElements.item(i);
+    const result = {
+      title: resultElement.querySelector(".result-title").innerHTML,
+      url: `https://developer.mozilla.org${
+        resultElement.querySelector(".result-title").href
+      }`,
+      description: resultElement
+        .querySelector(".result-excerpt")
+        .innerHTML.replace(/(<([^>]+)>)/gi, "")
+        .replace(/\n/gi, " "),
+    };
+
+    results.push(result);
+  }
+
+  for (let i = 0; i < results.length; i++) {
+    const result = results[i];
+    const embed = new Discord.MessageEmbed()
+      .setTitle(result.title)
+      .setURL(result.url)
+      .setDescription(result.description);
+    msg.channel.send(embed);
+  }
+};
+
+module.exports = { foaas, github, devToArticles, sendHelp, jinx, mdn };
