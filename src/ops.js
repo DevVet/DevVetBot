@@ -71,7 +71,7 @@ const devToArticles = (newsChannel) => {
 
 const sendHelp = (msg) => {
   msg.channel.send(
-    "DVBot Commands:\n   help - command list\n   articles - print top 5 Dev.to articls in #daily-articles\n   github <githubUsername> - print user github link and repo count"
+    "DVBot Commands:\n   help - command list\n   articles - print top 5 Dev.to articls in #daily-articles\n   github <githubUsername> - print user github link and repo count\n  mdn <searchString> - Return top three MDN search results for searchString"
   );
 };
 
