@@ -1,4 +1,7 @@
 const fetch = require("node-fetch");
+const jsdom = require("jsdom");
+const { Message } = require("discord.js");
+const Discord = require("discord.js");
 
 const foaas = (msg) => {
   const refMap = {
@@ -68,7 +71,7 @@ const devToArticles = (newsChannel) => {
 
 const sendHelp = (msg) => {
   msg.channel.send(
-    "DVBot Commands:\n   help - command list\n   articles - print top 5 Dev.to articls in #daily-articles\n   github <githubUsername> - print user github link and repo count"
+    "DVBot Commands:\n   help - command list\n   articles - print top 5 Dev.to articls in #daily-articles\n   github <githubUsername> - print user github link and repo count\n  mdn <searchString> - Return top three MDN search results for searchString\n\n!jinx - Get there first and they oh you a coke"
   );
 };
 
@@ -76,4 +79,41 @@ const jinx = (msg) => {
   msg.channel.send("1\r2\r3\r4\r5\r6\r7\r8\r9\r10\rYou owe me a coke!!");
 };
 
-module.exports = { foaas, github, devToArticles, sendHelp, jinx };
+const mdn = async (msg) => {
+  const searchString = msg.content.slice(msg.content.indexOf("mdn") + 4);
+  const url = `https://developer.mozilla.org/en-US/search?q=${encodeURI(
+    searchString.replace(" ", "+")
+  )}`;
+  const response = await fetch(url);
+  const dom = new jsdom.JSDOM(await response.text());
+  const resultElements = dom.window.document.getElementsByClassName("result");
+
+  let results = [];
+
+  for (let i = 0; i < 3; i++) {
+    const resultElement = resultElements.item(i);
+    const result = {
+      title: resultElement.querySelector(".result-title").innerHTML,
+      url: `https://developer.mozilla.org${
+        resultElement.querySelector(".result-title").href
+      }`,
+      description: resultElement
+        .querySelector(".result-excerpt")
+        .innerHTML.replace(/(<([^>]+)>)/gi, "")
+        .replace(/\n/gi, " "),
+    };
+
+    results.push(result);
+  }
+
+  for (let i = 0; i < results.length; i++) {
+    const result = results[i];
+    const embed = new Discord.MessageEmbed()
+      .setTitle(result.title)
+      .setURL(result.url)
+      .setDescription(result.description);
+    msg.channel.send(embed);
+  }
+};
+
+module.exports = { foaas, github, devToArticles, sendHelp, jinx, mdn };

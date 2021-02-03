@@ -1,6 +1,13 @@
 const Discord = require("discord.js");
 const fetch = require("node-fetch");
-const { foaas, github, devToArticles, sendHelp, jinx } = require("./ops.js");
+const {
+  foaas,
+  github,
+  devToArticles,
+  sendHelp,
+  jinx,
+  mdn,
+} = require("./ops.js");
 const client = new Discord.Client();
 
 require("dotenv").config();
@@ -16,17 +23,28 @@ client.on("ready", () => {
 
 client.on("message", (msg) => {
   if (msg.content.toLowerCase().match(/^!dvb/g)) {
-    if (msg.content.toLowerCase().match(/help/g)) {
-      sendHelp(msg);
-    } else if (msg.content.toLowerCase().match(/articles/g)) {
-      devToArticles(newsChannel);
-    } else if (msg.content.toLowerCase().match(/github/g)) {
-      github(msg);
-    } else if (msg.content.toLowerCase().match(/fujson/g)) {
-      foaas(msg);
+    let endOfCommandIdx = msg.content.indexOf(" ", 5);
+    endOfCommandIdx =
+      endOfCommandIdx === -1 ? msg.content.length : endOfCommandIdx;
+    const command = msg.content.slice(5, endOfCommandIdx);
+    switch (command) {
+      case "help":
+        sendHelp(msg);
+        break;
+      case "articles":
+        devToArticles(newsChannel);
+        break;
+      case "github":
+        github(msg);
+        break;
+      case "mdn":
+        mdn(msg);
+        break;
+      case "fujson":
+      default:
+        foaas(msg);
     }
-  }
-  if (msg.content.toLowerCase().match(/^!jinx/g)) {
+  } else if (msg.content.toLowerCase().match(/^!jinx/g)) {
     jinx(msg);
   }
 });
