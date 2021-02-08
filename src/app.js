@@ -91,38 +91,16 @@ client.on("ready", () => {
   });
 });
 
-// client.on("message", (msg) => {
-//   if (msg.content.toLowerCase().match(/^!dvb/g)) {
-//     let endOfCommandIdx = msg.content.indexOf(" ", 5);
-//     endOfCommandIdx =
-//       endOfCommandIdx === -1 ? msg.content.length : endOfCommandIdx;
-//     const command = msg.content.slice(5, endOfCommandIdx);
-//     switch (command) {
-//       case "help":
-//         sendHelp(msg);
-//         break;
-//       case "articles":
-//         devToArticles(newsChannel);
-//         break;
-//       case "github":
-//         github(msg);
-//         break;
-//       case "mdn":
-//         mdn(msg);
-//         break;
-//       case "fujson":
-//       default:
-//         foaas(msg);
-//     }
-//   } else if (msg.content.toLowerCase().match(/^!jinx/g)) {
-//     jinx(msg);
-//   }
-// });
+client.on("message", (msg) => {
+  if (msg.content.toLowerCase().match(/^!fujson/g)) {
+    foaas(msg);
+  }
+});
 
-// client.on("guildMemberAdd", (noob) => {
-//   motorpoolChannel.send(
-//     `Welcome to DevVet ${noob.user.username}!!\n\n This server is a social/educational network for Military Veterans who are also developers.  We're glad to have you here.`
-//   );
-// });
+client.on("guildMemberAdd", (noob) => {
+  motorpoolChannel.send(
+    `Welcome to DevVet ${noob.user.username}!!\n\n This server is a social/educational network for Military Veterans who are also developers.  We're glad to have you here.`
+  );
+});
 
 client.login(process.env.DISCORD_LOGIN);

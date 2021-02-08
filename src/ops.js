@@ -123,12 +123,11 @@ const mdn = async (channel, options) => {
 
   for (let i = 0; i < results.length; i++) {
     const result = results[i];
-    console.log(JSON.stringify(result, null, 2));
-    // const embed = new Discord.MessageEmbed()
-    //   .setTitle(result.title)
-    //   .setURL(result.url)
-    //   .setDescription(result.description);
-    // channel.send(embed);
+    const embed = new Discord.MessageEmbed()
+      .setTitle(result.title)
+      .setURL(result.url)
+      .setDescription(result.description);
+    channel.send(embed);
   }
 };
 
