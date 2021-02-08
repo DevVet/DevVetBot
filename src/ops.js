@@ -1,6 +1,5 @@
 const fetch = require("node-fetch");
 const jsdom = require("jsdom");
-const { Message } = require("discord.js");
 const Discord = require("discord.js");
 
 const foaas = (msg) => {
@@ -34,19 +33,39 @@ const foaas = (msg) => {
         );
       });
 
-      msg.channel.send(url + service.url);
-    });
+      return url + service.url;
+    })
+    .then((fuUrl) => {
+      fetch(fuUrl)
+        .then((resp) => resp.text())
+        .then((data) => {
+          const dom = new jsdom.JSDOM(data);
+          const message = dom.window.document.querySelector("h1").innerHTML;
+          const author = dom.window.document
+            .querySelector("em")
+            .innerHTML.replace("- ", "");
+
+          const embed = new Discord.MessageEmbed()
+            .setDescription(message)
+            .setFooter(author);
+
+          msg.channel.send(embed);
+        })
+        .catch(console.error);
+    })
+    .catch(console.error);
 };
 
-const github = (msg) => {
-  let user = msg.content.split(" ");
-  user = user[user.length - 1];
+const github = (channel, options) => {
+  const username = options.filter((option) => option.name === "username")[0]
+    .value;
+
   try {
-    fetch(`https://api.github.com/users/${user}`)
+    fetch(`https://api.github.com/users/${username}`)
       .then((resp) => resp.json())
       .then((userData) => {
-        msg.channel.send(userData.html_url);
-        msg.channel.send(`Total Repos: ${userData.public_repos}`);
+        channel.send(userData.html_url);
+        channel.send(`Total Repos: ${userData.public_repos}`);
       })
       .catch(console.error);
   } catch (error) {
@@ -69,21 +88,17 @@ const devToArticles = (newsChannel) => {
     });
 };
 
-const sendHelp = (msg) => {
-  msg.channel.send(
-    "DVBot Commands:\n   help - command list\n   articles - print top 5 Dev.to articls in #daily-articles\n   github <githubUsername> - print user github link and repo count\n  mdn <searchString> - Return top three MDN search results for searchString\n\n!jinx - Get there first and they oh you a coke"
-  );
+const jinx = (channel) => {
+  channel.send("1\r2\r3\r4\r5\r6\r7\r8\r9\r10\rYou owe me a coke!!");
 };
 
-const jinx = (msg) => {
-  msg.channel.send("1\r2\r3\r4\r5\r6\r7\r8\r9\r10\rYou owe me a coke!!");
-};
-
-const mdn = async (msg) => {
-  const searchString = msg.content.slice(msg.content.indexOf("mdn") + 4);
+const mdn = async (channel, options) => {
+  const searchString = options.filter((option) => option.name === "search")[0]
+    .value;
   const url = `https://developer.mozilla.org/en-US/search?q=${encodeURI(
     searchString.replace(" ", "+")
   )}`;
+
   const response = await fetch(url);
   const dom = new jsdom.JSDOM(await response.text());
   const resultElements = dom.window.document.getElementsByClassName("result");
@@ -112,8 +127,8 @@ const mdn = async (msg) => {
       .setTitle(result.title)
       .setURL(result.url)
       .setDescription(result.description);
-    msg.channel.send(embed);
+    channel.send(embed);
   }
 };
 
-module.exports = { foaas, github, devToArticles, sendHelp, jinx, mdn };
+module.exports = { foaas, github, devToArticles, jinx, mdn };
