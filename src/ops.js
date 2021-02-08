@@ -37,18 +37,23 @@ const foaas = (msg) => {
     })
     .then((fuUrl) => {
       fetch(fuUrl)
-        .then((resp) => new jsdom.JSDOM(resp.text()))
-        .then((dom) => {
+        .then((resp) => resp.text())
+        .then((data) => {
+          const dom = new jsdom.JSDOM(data);
           const message = dom.window.document.querySelector("h1").innerHTML;
-          const author = dom.window.document.querySelector("em").innerHTML;
+          const author = dom.window.document
+            .querySelector("em")
+            .innerHTML.replace("- ", "");
 
           const embed = new Discord.MessageEmbed()
             .setDescription(message)
             .setFooter(author);
 
           msg.channel.send(embed);
-        });
-    });
+        })
+        .catch(console.error);
+    })
+    .catch(console.error);
 };
 
 const github = (msg) => {
