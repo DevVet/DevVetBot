@@ -1,6 +1,5 @@
 const fetch = require("node-fetch");
 const jsdom = require("jsdom");
-const { Message } = require("discord.js");
 const Discord = require("discord.js");
 
 const foaas = (msg) => {
@@ -34,7 +33,21 @@ const foaas = (msg) => {
         );
       });
 
-      msg.channel.send(url + service.url);
+      return url + service.url;
+    })
+    .then((fuUrl) => {
+      fetch(fuUrl)
+        .then((resp) => new jsdom.JSDOM(resp.text()))
+        .then((dom) => {
+          const message = dom.window.document.querySelector("h1").innerHTML;
+          const author = dom.window.document.querySelector("em").innerHTML;
+
+          const embed = new Discord.MessageEmbed()
+            .setDescription(message)
+            .setFooter(author);
+
+          msg.channel.send(embed);
+        });
     });
 };
 
