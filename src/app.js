@@ -94,6 +94,8 @@ client.on("ready", () => {
 client.on("message", (msg) => {
   if (msg.content.toLowerCase().match(/^!fujson/g)) {
     foaas(msg);
+  } else if (msg.content.toLowerCase().match(/^!dailyarticles/g)) {
+    devToArticles(newsChannel);
   }
 });
 
