@@ -1,14 +1,6 @@
 const Discord = require("discord.js");
-const fetch = require("node-fetch");
-const {
-  foaas,
-  github,
-  devToArticles,
-  sendHelp,
-  jinx,
-  mdn,
-  hailHydra,
-} = require("./ops.js");
+
+const { foaas, github, devToArticles, jinx, mdn, hailHydra } = require("./ops");
 const client = new Discord.Client();
 
 require("dotenv").config();
