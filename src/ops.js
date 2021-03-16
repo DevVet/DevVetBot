@@ -70,7 +70,7 @@ const github = (channel, options) => {
       })
       .catch(console.error);
   } catch (error) {
-    cosole.error(error);
+    console.error(error);
   }
 };
 
