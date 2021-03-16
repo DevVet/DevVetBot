@@ -1,13 +1,6 @@
 const Discord = require("discord.js");
-const fetch = require("node-fetch");
-const {
-  foaas,
-  github,
-  devToArticles,
-  sendHelp,
-  jinx,
-  mdn,
-} = require("./ops.js");
+
+const { foaas, github, devToArticles, jinx, mdn, hailHydra } = require("./ops");
 const client = new Discord.Client();
 
 require("dotenv").config();
@@ -92,10 +85,17 @@ client.on("ready", () => {
 });
 
 client.on("message", (msg) => {
-  if (msg.content.toLowerCase().match(/^!fujson/g)) {
+  const message = msg.content.toLowerCase();
+  const FUJSON_REGEX = /^!fujson/g;
+  const DEVTO_REGEX = /^!dailyarticles/g;
+  const HYDRA_REGEX = /hail hydra/g;
+
+  if (message.match(FUJSON_REGEX)) {
     foaas(msg);
-  } else if (msg.content.toLowerCase().match(/^!dailyarticles/g)) {
+  } else if (message.match(DEVTO_REGEX)) {
     devToArticles(newsChannel);
+  } else if (message.match(HYDRA_REGEX)) {
+    hailHydra(msg);
   }
 });
 
