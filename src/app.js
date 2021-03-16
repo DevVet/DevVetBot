@@ -7,6 +7,7 @@ const {
   sendHelp,
   jinx,
   mdn,
+  hailHydra,
 } = require("./ops.js");
 const client = new Discord.Client();
 
@@ -96,6 +97,8 @@ client.on("message", (msg) => {
     foaas(msg);
   } else if (msg.content.toLowerCase().match(/^!dailyarticles/g)) {
     devToArticles(newsChannel);
+  } else if (msg.content.toLowerCase().match(/hail hydra/g)) {
+    hailHydra(msg);
   }
 });
 

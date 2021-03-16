@@ -1,6 +1,7 @@
 const fetch = require("node-fetch");
 const jsdom = require("jsdom");
 const Discord = require("discord.js");
+const fs = require("fs");
 
 const foaas = (msg) => {
   const refMap = {
@@ -131,4 +132,15 @@ const mdn = async (channel, options) => {
   }
 };
 
-module.exports = { foaas, github, devToArticles, jinx, mdn };
+const hailHydra = (msg) => {
+  const memeDir = "./src/assets";
+  fs.readdir(memeDir, (err, hydraMemes) => {
+    if (err) {
+      throw err;
+    }
+    const memeIndex = Math.floor(Math.random() * hydraMemes.length);
+    msg.channel.send("", { files: [`./src/assets/${hydraMemes[memeIndex]}`] });
+  });
+};
+
+module.exports = { foaas, github, devToArticles, jinx, mdn, hailHydra };
