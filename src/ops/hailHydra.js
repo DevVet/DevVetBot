@@ -7,6 +7,6 @@ module.exports = (msg) => {
       throw err;
     }
     const memeIndex = Math.floor(Math.random() * hydraMemes.length);
-    msg.channel.send("", { files: [`./src/assets/${hydraMemes[memeIndex]}`] });
+    msg.channel.send("", { files: [`${memeDir}/${hydraMemes.at(memeIndex)}`] });
   });
 };
