@@ -1,12 +1,9 @@
-const fs = require("fs");
+const fs = require("fs").promises;
 
-module.exports = (msg) => {
+module.exports = async (msg) => {
   const memeDir = "./src/assets";
-  fs.readdir(memeDir, (err, hydraMemes) => {
-    if (err) {
-      throw err;
-    }
-    const memeIndex = Math.floor(Math.random() * hydraMemes.length);
-    msg.channel.send("", { files: [`${memeDir}/${hydraMemes[memeIndex]}`] });
-  });
+
+  const hydraMemes = await fs.readdir(memeDir);
+  const memeIndex = Math.floor(Math.random() * hydraMemes.length);
+  msg.channel.send("", { files: [`${memeDir}/${hydraMemes[memeIndex]}`] });
 };
