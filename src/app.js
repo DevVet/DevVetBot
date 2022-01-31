@@ -1,6 +1,14 @@
 const Discord = require("discord.js");
 
-const { foaas, github, devToArticles, jinx, mdn, hailHydra } = require("./ops");
+const {
+  foaas,
+  github,
+  devToArticles,
+  jinx,
+  mdn,
+  hailHydra,
+  marineTranslate,
+} = require("./ops");
 const client = new Discord.Client();
 
 require("dotenv").config();

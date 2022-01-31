@@ -4,6 +4,7 @@ const devToArticles = require("./devToArticles");
 const jinx = require("./jinx");
 const mdn = require("./mdn");
 const hailHydra = require("./hailHydra");
+const marineTranslate = require("./marineTranslate");
 
 module.exports = {
   foaas,
@@ -12,4 +13,5 @@ module.exports = {
   jinx,
   mdn,
   hailHydra,
+  marineTranslate,
 };
