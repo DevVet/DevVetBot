@@ -54,6 +54,19 @@ client.on("ready", () => {
             ],
           },
           {
+            name: "marine-translate",
+            description: "Translate English to Marine",
+            type: 1,
+            options: [
+              {
+                name: "phrase",
+                description: "English to translate",
+                type: 3,
+                required: true,
+              },
+            ],
+          },
+          {
             name: "jinx",
             description: "JINX!!!",
             type: 1,
@@ -80,6 +93,8 @@ client.on("ready", () => {
         break;
       case "jinx":
         jinx(interactionChannel);
+      case "marine-translate":
+        marineTranslate(interactionChannel, command.options);
     }
   });
 });
