@@ -22,5 +22,5 @@ module.exports = async (channel, options) => {
 
   const translated = phrase.split(" ").map(translate).join(" ");
 
-  channel.send(userData.html_url);
+  channel.send(translated);
 };
