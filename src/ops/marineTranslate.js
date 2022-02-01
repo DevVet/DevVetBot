@@ -1,5 +1,5 @@
 const MARINE_SPEAK = [
-  "ooray",
+  "oorah",
   "grunt",
   "oof",
   "crayola",
@@ -10,11 +10,16 @@ const MARINE_SPEAK = [
   "south",
   "east",
   "birdy",
-  "semper fi",
+  "semper",
+  "fi",
   "montazuma",
+  "roger",
+  "fire",
+  "attack",
+  "navy",
 ];
 
-const tranlate = () =>
+const translate = () =>
   MARINE_SPEAK[Math.floor(Math.random() * MARINE_SPEAK.length)];
 
 module.exports = async (channel, options) => {
@@ -22,5 +27,5 @@ module.exports = async (channel, options) => {
 
   const translated = phrase.split(" ").map(translate).join(" ");
 
-  channel.send(translated);
+  await channel.send(translated);
 };
